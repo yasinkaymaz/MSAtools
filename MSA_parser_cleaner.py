@@ -12,6 +12,7 @@ with open("AmplificationTest.aln", "r") as alnfile:
     dfseq = []
     # take the names of sequences to index 
     index = df[0]
+    
     str_seq1 = df.ix[1][1]
     print "len : " +  str(len(str_seq1))
     # create an empty list of length of sequence letters 
