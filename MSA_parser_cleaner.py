@@ -33,15 +33,28 @@ with open("AmplificationTest.aln", "r") as alnfile:
         new_df.loc[i:,:] = dfseq
 
     # for each row: 
+    NC_1_pos =0
+    NC_2_pos =0
+
     for i in range(len(str_seq1)):
         # place the the sequence in a position to a set
         set_seq = set(new_df.loc[:,i])
+
+	if new_df.loc['NC_007605',i] != '-':
+		NC_1_pos = NC_1_pos +1
+	else:
+		pass
+	if new_df.loc['NC_009334',i] != '-':
+		NC_2_pos = NC_2_pos +1
+	else:
+		pass
+
         # if the set has n or - pass it
         if 'n' in set_seq or '-' in set_seq:
             pass
         
         else:
-            # if the set has more than 2 letters than learn which row has which one
+            # if the set has more than 1 letters than learn which row has which one
             if(len(set_seq) > 1):
-                print new_df.loc[:,i]
+                print new_df.loc[:,i], NC_1_pos, NC_2_pos
 
