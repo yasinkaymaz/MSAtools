@@ -39,7 +39,7 @@ with open("AmplificationTest.aln", "r") as alnfile:
         
         else:
             # if the set has more than 2 letters than learn which row has which one
-            if(len(set_seq) > 2):
+            if(len(set_seq) > 1):
                 print new_df.loc[:,i]
 
 
