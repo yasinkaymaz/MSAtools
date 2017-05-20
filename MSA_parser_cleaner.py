@@ -1,7 +1,8 @@
-/usr/bin/python
+#!/usr/bin/python
 
 import os
 import pandas  as pd
+import argparse
 
 alndata = []
 
@@ -42,12 +43,4 @@ with open("AmplificationTest.aln", "r") as alnfile:
             # if the set has more than 2 letters than learn which row has which one
             if(len(set_seq) > 1):
                 print new_df.loc[:,i]
-
-
-
-
-
-                                #dfseq= df[1]
-                                #df[1] = df[1].to_string()
-                                #print df[1]
 
