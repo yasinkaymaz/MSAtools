@@ -16,11 +16,7 @@ if len(sys.argv) < 5:
 	print "Please provide required arguments in proper order:"
 	print "MSA_parser_cleaner.py Sample1 sample2 AlignmentFile TypeOfEBV"
 	sys.exit(1)
-
-
-
 Ref=''
-
 #Make sure that repeat files are in the same directory
 if sys.argv[4] == '1':
 	Ref='NC_007605'
@@ -38,7 +34,6 @@ with open(Repeat_inputFile) as repeatFile:
 		for i in range(repstart,repend):
 			RepeatList.append(i)
 RepeatList = set(RepeatList)
-
 print len(set(RepeatList))
 
 outfile1 = open(sys.argv[1]+sys.argv[2]+"_Mismatch_error_positions.bed","w")
@@ -46,34 +41,29 @@ outfile2 = open(sys.argv[1]+sys.argv[2]+"_Mismatch_error_rates.txt","w")
 
 with open(sys.argv[3], "r") as alnfile:
     df = pd.read_csv(alnfile,sep="\t",header=None)
-
     dfseq = []
     # take the names of sequences to index 
     index = df[0]
-    
     str_seq1 = df.ix[1][1]
     print "len : " +  str(len(str_seq1))
     # create an empty list of length of sequence letters 
     columns = list(range(len(str_seq1)))
-
     #new data frame 
     new_df = pd.DataFrame(index=index, columns= columns)
     #print new_df
-
     #create new dataframe
     for i in range(len(df)):
         # change a string of sequence to a list of sequence
         dfseq = list(df.ix[i][1])
         # You can edit a subset of a dataframe by using loc:
-        # df.loc[<row selection>, <column selection>]
-        
+        # df.loc[<row selection>, <column selection>]  
         # place the list of sequence to the row that it belongs to in the new data frame
         new_df.loc[i:,:] = dfseq
 
     # for each row: 
-    Ref_pos =0
-    MatchCount=0
-    MissMatchCount=0
+    Ref_pos = 0
+    MatchCount = 0
+    MissMatchCount = 0
     for i in range(len(str_seq1)):
         # place the the sequence in a position to a set
         set_seq = set(new_df.loc[:,i])
@@ -85,7 +75,6 @@ with open(sys.argv[3], "r") as alnfile:
 	#put the bases at the location of the query sequence 1 and 2 into a set
 	set_pair = set(new_df.loc[ [sys.argv[1],sys.argv[2] ],i  ])
 
-
 	#skip indels and Ns in the alignment
         if 'n' in set_pair or '-' in set_pair:
 		pass
@@ -94,6 +83,7 @@ with open(sys.argv[3], "r") as alnfile:
 		print set_pair, Ref_pos
 		MissMatchCount = MissMatchCount +1
 		outfile1.write(str(Ref)+"\t"+str(Ref_pos)+"\t"+str(Ref_pos+1)+"\n")
+		
 	#If there is a perfect match and the position is not in the repeat regions, count as match.
 	elif len(set_pair) == 1 and Ref_pos not in RepeatList:
 		MatchCount = MatchCount +1
@@ -102,13 +92,3 @@ outfile2.write(sys.argv[1]+"\t"+sys.argv[2]+"\t"+str(MissMatchCount)+"\t"+str(Ma
 print "Match Count:", MatchCount
 outfile1.close()
 outfile2.close()
-
-        # if the set has n or - pass it
-#        if 'n' in set_seq or '-' in set_seq:
-#            pass
-        
-#        else:
-            # if the set has more than 1 letters than learn which row has which one
- #           if(len(set_seq) > 1):
-  #              print new_df.loc[:,i], NC_1_pos, NC_2_pos
-
