@@ -2,9 +2,21 @@
 
 import os
 import pandas  as pd
-import argparse
+import sys
 
 alndata = []
+
+#sys.argv[1] -> sample 1
+#sys.argv[2] -> sample 2
+#sys.argv[3] -> type of virus
+
+Ref=''
+
+if sys.argv[3] == '1':
+	Ref='NC_007605'
+else:
+	Ref='NC_009334'
+
 
 with open("AmplificationTest.aln", "r") as alnfile:
     df = pd.read_csv(alnfile,sep="\t",header=None)
@@ -33,28 +45,37 @@ with open("AmplificationTest.aln", "r") as alnfile:
         new_df.loc[i:,:] = dfseq
 
     # for each row: 
-    NC_1_pos =0
-    NC_2_pos =0
+    Ref_pos =0
 
     for i in range(len(str_seq1)):
         # place the the sequence in a position to a set
         set_seq = set(new_df.loc[:,i])
 
-	if new_df.loc['NC_007605',i] != '-':
-		NC_1_pos = NC_1_pos +1
-	else:
-		pass
-	if new_df.loc['NC_009334',i] != '-':
-		NC_2_pos = NC_2_pos +1
+	if new_df.loc[Ref,i] != '-':
+		Ref_pos = Ref_pos +1
 	else:
 		pass
 
+	set_pair = set(new_df.loc[ [sys.argv[1],sys.argv[2] ],i  ])
+
+
+
+        if 'n' in set_pair or '-' in set_pair:
+		pass
+	elif len(set_pair)>1:
+		print set_pair, Ref_pos
+	
+
+
+
+
+
         # if the set has n or - pass it
-        if 'n' in set_seq or '-' in set_seq:
-            pass
+#        if 'n' in set_seq or '-' in set_seq:
+#            pass
         
-        else:
+#        else:
             # if the set has more than 1 letters than learn which row has which one
-            if(len(set_seq) > 1):
-                print new_df.loc[:,i], NC_1_pos, NC_2_pos
+ #           if(len(set_seq) > 1):
+  #              print new_df.loc[:,i], NC_1_pos, NC_2_pos
 
