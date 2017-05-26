@@ -15,8 +15,9 @@ alndata = []
 
 if len(sys.argv) < 3:
 	print "Please provide required arguments in proper order:"
-	print "MSA_parser_cleaner.py AlignmentFile TypeOfEBV"
+	print "MSA_parser_cleaner.py AlignmentFile TypeOfEBV [RepeatFilter]"
 	sys.exit(1)
+
 Ref=''
 #Make sure that repeat files are in the same directory
 if sys.argv[2] == '1':
@@ -26,16 +27,22 @@ else:
 	Ref='NC_009334'
 	Repeat_inputFile = "NC_009334_miropeat_default_run_repeats.bed"
 
+if sys.argv[3] == "RepeatFilter":
+
 #Find the genomic locations fall into miropeats repeat regions
-RepeatList = []
-with open(Repeat_inputFile) as repeatFile:
-	for line in repeatFile:
-		repstart = int(line.strip().split("\t")[1])
-		repend = int(line.strip().split("\t")[2])
-		for i in range(repstart,repend):
-			RepeatList.append(i)
-RepeatList = set(RepeatList)
-print len(set(RepeatList))
+	RepeatList = []
+	with open(Repeat_inputFile) as repeatFile:
+		for line in repeatFile:
+			repstart = int(line.strip().split("\t")[1])
+			repend = int(line.strip().split("\t")[2])
+			for i in range(repstart,repend):
+				RepeatList.append(i)
+	RepeatList = set(RepeatList)
+	print len(set(RepeatList))
+else:
+	RepeatList = []
+	pass
+
 
 compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
 
