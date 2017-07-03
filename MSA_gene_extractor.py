@@ -100,7 +100,7 @@ for record in alignment:
 
 
 #print "GAP:", len(gap), "BAP:", len(bap)
-print "Target gene loci length:". len(targetGeneAlignment)
+print "Target gene loci length:", len(targetGeneAlignment)
 
 for i in range(alignment.get_alignment_length()):
 
