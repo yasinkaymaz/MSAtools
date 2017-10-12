@@ -15,6 +15,7 @@ alndata = []
 #sys.argv[4] -> type of virus
 
 if len(sys.argv) < 5:
+	print "Welcome to new era of MSA."
 	print "Please provide required arguments in proper order:"
 	print "MSA_parser_cleaner.py Sample1 sample2 AlignmentFile TypeOfEBV"
 	print "Feed with an alignment file in fasta format."
